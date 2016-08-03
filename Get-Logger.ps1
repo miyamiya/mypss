@@ -60,7 +60,7 @@ function Global:Get-Logger{
         [Parameter()]
         [Switch]$NoDisplay
     )
-    if (!(Test-Path -LiteralPath (Split-Path $Logfile -parent) -PathType container)) {
+    if ($Logfile -And !(Test-Path -LiteralPath (Split-Path $Logfile -parent) -PathType container)) {
         New-Item $Logfile -type file -Force
     }
     $logger = @{}
