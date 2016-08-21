@@ -11,7 +11,7 @@ My Powershell Scripts
 
 This module is logger object.
 
-```ps1:Example
+```ps1
 ### Example: Output display only
 
 # Get object
@@ -65,7 +65,7 @@ $logger.info.Invoke("Information message")
 
 This module is image drawing & simple image processing object.
 
-```ps1:Example
+```ps1
 ### Example: resize & rotate image
 
 # Get object
@@ -100,7 +100,8 @@ $draw.dispose.Invoke()
    Image rotate
 
      * Method: rotate
-     * Param: rotate angle [ 90 | 180 | 270 | NONE ]
+     * Param: rotate angle  
+       [ 90 | 180 | 270 | NONE ]
      * Example
        ```ps1
        # no turn 
@@ -119,7 +120,8 @@ $draw.dispose.Invoke()
    Image flip
 
      * Method: flip
-     * Param: flip pattern [ X | Y | XY ]
+     * Param: flip pattern  
+       [ X | Y | XY ]
      * Example: 
        ```ps1
        # no flip
@@ -138,8 +140,10 @@ $draw.dispose.Invoke()
    Image resize
 
      * Method: resize
-     * Param1: image width [ [int]pixcel | [string]percent ]
-     * Param2: image height [ [int]pixcel | [string]percent ]
+     * Param1: image width  
+       [ [int]pixcel | [string]percent ]
+     * Param2: image height  
+       [ [int]pixcel | [string]percent ]
      * Example: 
        ```ps1
        # width = 640, height = auto
@@ -158,7 +162,8 @@ $draw.dispose.Invoke()
    Image format
 
      * Method: format
-     * Param: image format [ bmp | emf | exif | gif | ico | jpg | png | tiff | wmf ]
+     * Param: image format  
+       [ bmp | emf | exif | gif | ico | jpg | png | tiff | wmf ]
      * Note: without using this method , it's automatically determined to see an extension to the time of the save
      * See: [https://msdn.microsoft.com/en-us/library/system.drawing.imaging.imageformat(v=vs.110).aspx](https://msdn.microsoft.com/en-us/library/system.drawing.imaging.imageformat(v=vs.110).aspx)
      * Example: 
@@ -173,7 +178,8 @@ $draw.dispose.Invoke()
     Interpolation mode
 
      * Method: mode
-     * Param: interpolation mode [ Bicubic | Bilinear | Default | High | HighQualityBicubic | HighQualityBilinear | Low | NearestNeighbor ]
+     * Param: interpolation mode  
+       [ Bicubic | Bilinear | Default | High | HighQualityBicubic | HighQualityBilinear | Low | NearestNeighbor ]
      * Note: default is NearestNeighbor
      * See: [https://msdn.microsoft.com/en-us/library/system.drawing.drawing2d.interpolationmode%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396](https://msdn.microsoft.com/en-us/library/system.drawing.drawing2d.interpolationmode%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396)
      * Example: 
@@ -186,19 +192,19 @@ $draw.dispose.Invoke()
        ```
 
 3. Save
-
      * Method: save
      * Param: save filepath
-     * Example
-       ```ps1
-       $draw.save.Invoke("C:\hoge-resize.png")
-       ```
+     * Example:
+   ```ps1
+   # Image save
+   $draw.save.Invoke("C:\hoge-resize.png")
+   ```
 
 4. Object dispose
-
      * Method: dispose
-     * Example
-       ```ps1
-       $draw.dispose.Invoke()
-       ```
+     * Example:
+    ```ps1
+    # Object dispose
+    $draw.dispose.Invoke()
+      ```
 
