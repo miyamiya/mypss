@@ -14,8 +14,12 @@
 .PARAMETER NoDisplay
   Log message is no display
 
+.NOTE
+  @see https://github.com/miyamiya/mypss/blob/master/README.md
+  @author miyamiya <rai.caver@gmail.com>
+
 .EXAMPLE
-  # Example: Output display only
+  ### Example: Output display only
 
   # Get object
   $logger = Get-Logger
@@ -30,7 +34,7 @@
   $logger.error.Invoke("Message")
 
 .EXAMPLE
-  # Example: Output display and logfile
+  ### Example: Output display and logfile
 
   # Set logfile
   $logger = Get-Logger -Logfile "C:\hoge\hoge.log"
@@ -39,7 +43,7 @@
   $logger.info.Invoke("Message")
 
 .EXAMPLE
-  # Example: Output logfile only
+  ### Example: Output logfile only
 
   # Set logfile and NoDisplay Switch
   $logger = Get-Logger -Logfile "C:\hoge\hoge.log" -NoDisplay
@@ -64,13 +68,13 @@ function Global:Get-Logger{
         New-Item $Logfile -type file -Force
     }
     $logger = @{}
-    $logger.Set_Item('info', (Put-Log -Delimiter $Delimiter -Logfile $logfile -Encoding $Encoding -NoDisplay $NoDisplay -Info))
-    $logger.Set_Item('warn', (Put-Log -Delimiter $Delimiter -Logfile $logfile -Encoding $Encoding -NoDisplay $NoDisplay -Warn))
-    $logger.Set_Item('error', (Put-Log -Delimiter $Delimiter -Logfile $logfile -Encoding $Encoding -NoDisplay $NoDisplay -Err))
+    $logger.Set_Item('info', (Out-MypssLog -Delimiter $Delimiter -Logfile $logfile -Encoding $Encoding -NoDisplay $NoDisplay -Info))
+    $logger.Set_Item('warn', (Out-MypssLog -Delimiter $Delimiter -Logfile $logfile -Encoding $Encoding -NoDisplay $NoDisplay -Warn))
+    $logger.Set_Item('error', (Out-MypssLog -Delimiter $Delimiter -Logfile $logfile -Encoding $Encoding -NoDisplay $NoDisplay -Err))
     return $logger
 }
 
-function Global:Put-Log
+function Global:Out-MypssLog
 {
     Param(
         [CmdletBinding()]
