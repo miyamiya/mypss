@@ -42,7 +42,7 @@ function Global:Get-Draw{
     $image = New-Object System.Drawing.Bitmap([string](Resolve-Path $File | Select-Object $_.Path))
 
     # Context Object
-    $context = @{rotate='NONE'; flip='NONE'; mode='NearestNeighbor'}
+    $context = @{basefile=$File; rotate='NONE'; flip='NONE'; mode='NearestNeighbor'}
 
     # Draw Object
     $draw = @{}
@@ -205,7 +205,16 @@ function Global:Save-MypssDraw
         param(
             [String]$Outfile
         )
-
+        # Outfile is empty
+        if ([string]::IsNullOrEmpty($Outfile) -And $Context.basefile -match "^(.*)\.([a-zA-Z]+)$") {
+           :filesearch for($i=1; $i -le 100; $i++) {
+                $tmp = "{0}({1}).{2}" -F $Matches[1], $i, $Matches[2]
+                if(!(Test-Path -LiteralPath $tmp -PathType Leaf)) {
+                    $Outfile = $tmp
+                    break filesearch
+                }
+            }
+        }
         # Outfile Literal Path
         if (!(Split-Path $Outfile -IsAbsolute)) {
             $Outfile = ((Convert-Path .) + "\" + $Outfile)
