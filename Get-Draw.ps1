@@ -13,16 +13,16 @@
   ### Example: resize & rotate image
 
   # Get object
-  $draw = Get-Draw -File "C:\hoge.jpg"
+  $draw = Get-Draw -File 'C:\hoge.jpg'
 
   # Resize
-  $draw.resize.Invoke("30%")
+  $draw.resize.Invoke('30%')
 
   # Rotate (right-hand turn)
   $draw.rotate.Invoke(90)
 
   # Save
-  $draw.save.Invoke("C:\hoge-resize.png")
+  $draw.save.Invoke('C:\hoge-resize.png')
 
   # Object dispse
   $draw.dispose.Invoke()
@@ -36,7 +36,7 @@ function Global:Get-Draw{
         [String]$File
     )
     # Load Assembly
-    [void][Reflection.Assembly]::LoadWithPartialName("System.Drawing")
+    [void][Reflection.Assembly]::LoadWithPartialName('System.Drawing')
 
     # Load Image
     $image = New-Object System.Drawing.Bitmap([string](Resolve-Path $File | Select-Object $_.Path))
@@ -104,10 +104,10 @@ function Global:Resize-MypssDraw
         Param(
             [CmdletBinding()]
             [Parameter()]
-            [ValidatePattern("^\d*[%]?$")]
+            [ValidatePattern('^\d*[%]?$')]
             [string]$ToX,
             [Parameter()]
-            [ValidatePattern("^\d*[%]?$")]
+            [ValidatePattern('^\d*[%]?$')]
             [string]$ToY
         )
 
@@ -116,11 +116,11 @@ function Global:Resize-MypssDraw
                 [int]$baseSize,
                 [string]$ToSize
             )
-            if(!([string]::IsNullOrEmpty($ToSize)) -And $ToSize -match "^\d*$") {
+            if(!([string]::IsNullOrEmpty($ToSize)) -And $ToSize -match '^\d*$') {
                 return ([int]$ToSize / $baseSize)
             }
             # Parsent
-            if(!([string]::IsNullOrEmpty($ToSize)) -And $ToSize -match "^(\d*)[%]?$") {
+            if(!([string]::IsNullOrEmpty($ToSize)) -And $ToSize -match '^(\d*)[%]?$') {
                 return ([int]$Matches[1] / 100)
             }
             return 1
@@ -157,7 +157,7 @@ function Global:Format-MypssDraw
             'jpeg'='Jpeg'; 'png' ='Png'; 'tiff'='Tiff';
             'wmf'='Wmf'
         }
-        if($FormatOrFilepath -match ".*\.([a-zA-Z]+)$") {
+        if($FormatOrFilepath -match '.*\.([a-zA-Z]+)$') {
             $ext = $list.($Matches[1])
             if(!([string]::IsNullOrEmpty($ext))) {
                 $Context.Set_Item('format', $ext)
@@ -206,9 +206,9 @@ function Global:Save-MypssDraw
             [String]$Outfile
         )
         # Outfile is empty
-        if ([string]::IsNullOrEmpty($Outfile) -And $Context.basefile -match "^(.*)\.([a-zA-Z]+)$") {
+        if ([string]::IsNullOrEmpty($Outfile) -And $Context.basefile -match '^(.*)\.([a-zA-Z]+)$') {
            :filesearch for($i=1; $i -le 100; $i++) {
-                $tmp = "{0}({1}).{2}" -F $Matches[1], $i, $Matches[2]
+                $tmp = '{0}({1}).{2}' -F $Matches[1], $i, $Matches[2]
                 if(!(Test-Path -LiteralPath $tmp -PathType Leaf)) {
                     $Outfile = $tmp
                     break filesearch
@@ -217,7 +217,7 @@ function Global:Save-MypssDraw
         }
         # Outfile Literal Path
         if (!(Split-Path $Outfile -IsAbsolute)) {
-            $Outfile = ((Convert-Path .) + "\" + $Outfile)
+            $Outfile = ((Convert-Path .) + '\' + $Outfile)
         }
         # Make Output Directory
         if ($Outfile -And !(Test-Path -LiteralPath (Split-Path $Outfile -parent) -PathType container)) {
@@ -226,7 +226,7 @@ function Global:Save-MypssDraw
 
         # Make Canvas
         if([string]::IsNullOrEmpty($Context.ratioX) -Or [string]::IsNullOrEmpty($Context.ratioY)) {
-            (Resize-MypssDraw $Image $Context).Invoke("100%")
+            (Resize-MypssDraw $Image $Context).Invoke('100%')
         }
         $Canvas = New-Object System.Drawing.Bitmap([int]($Image.Width * $Context.ratioX), [int]($Image.Height * $Context.ratioY))
         $Graphics = [System.Drawing.Graphics]::FromImage($Canvas)
@@ -238,7 +238,7 @@ function Global:Save-MypssDraw
         $Graphics.DrawImage($Image, (New-Object System.Drawing.Rectangle(0, 0, $Canvas.Width, $Canvas.Height)))
 
         # Rotate
-        $Canvas.RotateFlip(([System.String]::Format("Rotate{0}Flip{1}", $Context.rotate, $Context.flip)))
+        $Canvas.RotateFlip(([System.String]::Format('Rotate{0}Flip{1}', $Context.rotate, $Context.flip)))
 
         # Check output format
         if ([string]::IsNullOrEmpty($Context.format)) {
