@@ -58,7 +58,12 @@ function Get-Md5sum
 
         # Check $Path
         $files = Get-ChildItem -Path $Path | Where-Object {!$_.PSIsContainer} | Sort-Object Name
+
         $parent = ((Split-Path $Path -Parent) + '\')
+        if(Test-Path -LiteralPath $Path -PathType Container) {
+            $parent = (($Path.TrimEnd('\')) + '\')
+        }
+
         if($parent -eq '\'){
             $parent = ''
         }
